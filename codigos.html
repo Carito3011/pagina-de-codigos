@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Código Mario</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <a href="index2.html" style="color:#007bff; text-decoration:none;">← Volver</a>
+        <h2>Código: Mario Prototipo</h2>
+    </header>
+
+    <main style="padding: 20px; max-width: 900px; margin: auto;">
+        <h3>Configuración inicial (Gratis)</h3>
+        <pre><code class="language-css">
+/* Estilos Base */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #121212;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #1f1f1f;
+    padding: 2rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+        </code></pre>
+
+        <h3>targetas y conf avanzadas (Requiere Registro)</h3>
+        <div class="codigo-bloqueado-container">
+            <pre id="codigo-secreto" class="borroso"><code class="language-js">
+/* Tarjetas y Contenedores */
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.card {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card:hover { transform: translateY(-5px); border-color: #007bff; }
+
+/* BOTONES AZULES (Los que pediste) */
+.btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white !important;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.btn:hover { background-color: #0056b3; }
+
+
+            </code></pre>
+
+            <div id="muro" class="muro-registro">
+                <p>🔒 Regístrate para desbloquear las 200 líneas de código</p>
+                <a href="login.html" class="btn">Registrarse Gratis</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script>
+    // 1. Buscamos si existe la marca de 'registrado' en el navegador
+    const estadoRegistro = localStorage.getItem('registrado');
+
+    // 2. Si es 'true', liberamos el contenido
+    if (estadoRegistro === 'true') {
+        const codigoSecreto = document.getElementById('codigo-secreto');
+        const muroBloqueo = document.getElementById('muro');
+
+        if (codigoSecreto && muroBloqueo) {
+            codigoSecreto.classList.remove('borroso'); // Quita el blur
+            muroBloqueo.style.display = 'none';         // Esconde el mensaje y el botón
+        }
+    }
+</script>
+</body>
+</html>

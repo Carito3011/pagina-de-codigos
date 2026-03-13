@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Código Mario</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <a href="index2.html" style="color:#007bff; text-decoration:none;">← Volver</a>
+        <h2>Código: Mario Prototipo</h2>
+    </header>
+
+    <main style="padding: 20px; max-width: 900px; margin: auto;">
+        <h3>importaciones y cosas basicas(gratis)</h3>
+        <pre><code class="language-js">
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 800; canvas.height = 480;
+
+let score = 0, monedas = 0, nivel = 1, jugando = false;
+const gravedad = 0.8;
+const teclas = {};
+
+const jugador = {
+    x: 50, y: 300, w: 35, h: 70, vx: 0, vy: 0,
+    salto: -15, enSuelo: false
+};
+
+let plataformas = [];
+let items = []; 
+let enemigos = [];
+        </code></pre>
+
+        <h3>Lógica Completa (Requiere Registro)</h3>
+        <div class="codigo-bloqueado-container">
+            <pre id="codigo-secreto" class="borroso"><code class="language-js">
+function cargarNivel(n) {
+    plataformas = []; items = []; enemigos = [];
+    jugador.x = 50; jugador.y = 300;
+    
+    // Suelo base (Café con pasto verde)
+    plataformas.push({x: 0, y: 430, w: 800, h: 50, tipo: 'suelo'});
+
+    if (n === 1) {
+        // NIVEL 1: Plataformas y Monedas
+        plataformas.push({x: 250, y: 320, w: 120, h: 20}, {x: 500, y: 220, w: 120, h: 20});
+        items.push({x: 300, y: 280}, {x: 550, y: 180});
+        enemigos.push({x: 600, y: 400, w: 30, h: 30, vx: -2});
+    } else {
+        // NIVEL 2: El Jefe
+        plataformas.push({x: 150, y: 350, w: 500, h: 20});
+        enemigos.push({x: 650, y: 330, w: 80, h: 100, color: '#000', hp: 3, jefe: true});
+    }
+}
+
+function actualizar() {
+    if (teclas['ArrowRight']) jugador.vx = 5;
+    else if (teclas['ArrowLeft']) jugador.vx = -5;
+    else jugador.vx = 0;
+
+    if (teclas['Space'] && jugador.enSuelo) {
+        jugador.vy = jugador.salto;
+        jugador.enSuelo = false;
+    }
+
+    jugador.vy += gravedad;
+    jugador.x += jugador.vx;
+    jugador.y += jugador.vy;
+
+    // Colisiones con plataformas y suelo
+    jugador.enSuelo = false;
+    plataformas.forEach(p => {
+        if (jugador.x < p.x + p.w && jugador.x + jugador.w > p.x &&
+            jugador.y + jugador.h > p.y && jugador.y + jugador.h < p.y + p.h && jugador.vy >= 0) {
+            jugador.y = p.y - jugador.h;
+            jugador.vy = 0;
+            jugador.enSuelo = true;
+        }
+    });
+
+    // Recoger monedas
+    items.forEach((m, i) => {
+        if (jugador.x < m.x + 20 && jugador.x + jugador.w > m.x) {
+            items.splice(i, 1); score += 100; monedas++;
+            document.getElementById('monedas').innerText = monedas;
+        }
+    });
+
+    // Meta / Cambio de nivel
+    if (jugador.x > 770 && nivel === 1) {
+        nivel = 2; cargarNivel(2);
+    }
+}
+
+function dibujar() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Dibujar cielo
+    ctx.fillStyle = "#5c94fc";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Dibujar Suelo con Pasto
+    plataformas.forEach(p => {
+        ctx.fillStyle = "#8b4513"; // Tierra
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+        ctx.fillStyle = "#228b22"; // Pasto
+        ctx.fillRect(p.x, p.y, p.w, 10);
+    });
+
+    // Dibujar Monedas
+    ctx.fillStyle = "gold";
+    items.forEach(m => {
+        ctx.beginPath(); ctx.arc(m.x, m.y, 8, 0, Math.PI*2); ctx.fill();
+    });
+
+    // Dibujar Enemigos
+    enemigos.forEach(e => {
+        ctx.fillStyle = e.color || "purple";
+        ctx.fillRect(e.x, e.y, e.w, e.h);
+        if (!e.jefe) e.x += e.vx; 
+        if (e.x < 0 || e.x > 770) e.vx *= -1;
+    });
+
+    // Dibujar Jugador (Mario: Rojo arriba, Azul abajo)
+    ctx.fillStyle = "#ff0000"; ctx.fillRect(jugador.x, jugador.y, jugador.w, jugador.h/2);
+    ctx.fillStyle = "#0000ff"; ctx.fillRect(jugador.x, jugador.y + jugador.h/2, jugador.w, jugador.h/2);
+}
+
+function bucle() {
+    if (jugando) {
+        actualizar();
+        dibujar();
+        requestAnimationFrame(bucle);
+    }
+}
+
+document.getElementById('boton-jugar').onclick = () => {
+    document.getElementById('pantalla-inicio').classList.add('oculto');
+    document.getElementById('hud').classList.remove('oculto');
+    canvas.classList.remove('oculto');
+    jugando = true; cargarNivel(1); bucle();
+};
+
+window.onkeydown = (e) => teclas[e.code] = true;
+window.onkeyup = (e) => teclas[e.code] = false;
+
+            </code></pre>
+
+            <div id="muro" class="muro-registro">
+                <p>🔒 Regístrate para desbloquear las 200 líneas de código</p>
+                <a href="login.html" class="btn">Registrarse Gratis</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script>
+    // 1. Buscamos si existe la marca de 'registrado' en el navegador
+    const estadoRegistro = localStorage.getItem('registrado');
+
+    // 2. Si es 'true', liberamos el contenido
+    if (estadoRegistro === 'true') {
+        const codigoSecreto = document.getElementById('codigo-secreto');
+        const muroBloqueo = document.getElementById('muro');
+
+        if (codigoSecreto && muroBloqueo) {
+            codigoSecreto.classList.remove('borroso'); // Quita el blur
+            muroBloqueo.style.display = 'none';         // Esconde el mensaje y el botón
+        }
+    }
+</script>
+    
+</body>
+</html>
