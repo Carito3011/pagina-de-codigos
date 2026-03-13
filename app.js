@@ -1,15 +1,30 @@
+// Registro de usuario
+function registrar() {
+    const nombre = document.getElementById('nombre').value;
+    if (nombre) {
+        localStorage.setItem('registrado', 'true');
+        localStorage.setItem('usuario', nombre);
+        alert("¡Registro exitoso!");
+        window.location.href = 'index.html';
+    } else {
+        alert("Por favor pon tu nombre.");
+    }
+}
+
+// Cerrar sesión
 function cerrarSesion() {
-    // Esto borra los datos específicos que creamos
     localStorage.removeItem('registrado');
-    localStorage.removeItem('perfilCompleto');
-    
-    // O puedes usar localStorage.clear(); para borrar TODO
-    
-    alert("Registro eliminado. El contenido volverá a estar bloqueado.");
-    window.location.reload(); // Recarga la página para aplicar los cambios
+    localStorage.removeItem('usuario');
+    location.reload();
 }
-// Si el usuario ya está registrado, mostrar su nombre en el saludo
-const perfil = JSON.parse(localStorage.getItem('perfilCompleto'));
-if (perfil && perfil.nombre) {
-    document.getElementById('saludo').innerText = "¡Hola de nuevo, " + perfil.nombre + "!";
-}
+
+// Saludo personalizado
+window.onload = function() {
+    const registrado = localStorage.getItem('registrado');
+    const usuario = localStorage.getItem('usuario');
+    const saludo = document.getElementById('saludo');
+
+    if (registrado === 'true' && saludo) {
+        saludo.innerText = "¡Bienvenido, " + usuario + "! Tienes acceso a los códigos.";
+    }
+};
