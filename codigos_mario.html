@@ -1,16 +1,29 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Código de Mario</title>
+
     <link rel="stylesheet" href="estilos.css">
+
 </head>
+
 <body>
+
     <h1>Código: Súper Mario Prototipo</h1>
 
+
+
     <div class="card" style="width: 90%; text-align: left; margin: auto;">
+
         <h3>📌 Parte 1: Movimiento Base (Gratis)</h3>
+
         <pre><code>
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = 800; canvas.height = 480;
@@ -27,18 +40,32 @@ const jugador = {
 let plataformas = [];
 let items = []; 
 let enemigos = [];
+
+
         </code></pre>
+
+
 
         <hr>
 
+
+
         <h3>🔒 Parte 2: Lógica del Jefe y Niveles</h3>
+
         <div id="bloqueo-mario" style="background: #444; padding: 20px; border-radius: 10px; text-align: center;">
+
             <p>🔑 Registro necesario para ver la lógica del Boss Final.</p>
+
             <a href="login.html" class="btn">Registrarse Gratis</a>
+
         </div>
 
+
+
         <div id="secreto-mario" style="display: none;">
+
             <pre><code style="color: #00ff00;">
+
 function cargarNivel(n) {
     plataformas = []; items = []; enemigos = [];
     jugador.x = 50; jugador.y = 300;
@@ -149,17 +176,31 @@ document.getElementById('boton-jugar').onclick = () => {
 window.onkeydown = (e) => teclas[e.code] = true;
 window.onkeyup = (e) => teclas[e.code] = false;
 
+
             </code></pre>
+
         </div>
+
     </div>
 
+
+
     <script src="app.js"></script>
+
     <script>
+
         // Si el usuario ya está en el sistema, mostramos lo secreto
+
         if(localStorage.getItem('registrado') === 'true') {
+
             document.getElementById('bloqueo-mario').style.display = 'none';
+
             document.getElementById('secreto-mario').style.display = 'block';
+
         }
+
     </script>
+
 </body>
+
 </html>
