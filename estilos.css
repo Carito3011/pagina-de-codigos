@@ -1,220 +1,76 @@
-/* --- ESTILOS GENERALES --- */
+/* Estilos Base */
 body {
-    background-color: #000000; /* Fondo negro puro, súper chévere */
-    color: #e0e0e0; /* Texto gris claro para que no canse la vista */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+    background-color: #121212;
+    color: #e0e0e0;
+    line-height: 1.6;
 }
 
 header {
+    background-color: #1f1f1f;
+    padding: 2rem 1rem;
     text-align: center;
-    padding: 40px 20px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.03); /* Un toque sutil */
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #333;
 }
 
-h1 {
-    margin: 0 0 10px 0;
-    font-size: 2.5rem;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255,255,255,0.3);
-}
-
-#saludo {
-    font-size: 1.1rem;
-    color: #aaa;
-    margin-bottom: 20px;
-}
-
-/* --- CONTENEDOR DE TARJETAS (INDEX) --- */
+/* Tarjetas y Contenedores */
 .main-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
     padding: 40px;
-    max-width: 1200px;
+    max-width: 1000px;
+    margin: auto;
 }
 
 .card {
-    background-color: #111; /* Tarjeta casi negra */
-    padding: 30px;
-    border-radius: 20px;
-    width: 300px;
-    border: 1px solid #222;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    padding: 25px;
+    border-radius: 12px;
     text-align: center;
+    transition: transform 0.3s;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border-color: #333;
+.card:hover { transform: translateY(-5px); border-color: #007bff; }
+
+/* BOTONES AZULES (Los que pediste) */
+.btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white !important;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
 }
 
-.card h3 {
-    color: #fff;
-    margin-top: 0;
-    font-size: 1.5rem;
-}
+.btn:hover { background-color: #0056b3; }
 
-.card p {
-    color: #ccc;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 25px;
-}
-
-/* --- ESTILOS DE CÓDIGO (PRE y CODE) --- */
-pre {
-    background-color: #080808; /* Fondo código casi negro */
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #1a1a1a;
-    overflow-x: auto;
-    text-align: left;
-    margin: 20px 0;
+/* EFECTO DE BLOQUEO (Para el código) */
+.codigo-bloqueado-container {
     position: relative;
-}
-
-code {
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-/* Colores sintaxis (como en tu imagen) */
-.sc-negro { color: #fff; } /* Texto normal */
-.sc-verde { color: #4caf50; } /* Comentarios/Funciones */
-.sc-azul { color: #2196f3; } /* Variables/Const */
-
-/* --- SISTEMA DE BLOQUEO PARCIAL (Blur) --- */
-.seccion-bloqueada {
-    position: relative;
+    border-radius: 8px;
     overflow: hidden;
-    border-radius: 10px;
 }
 
-.codigo-borroso {
-    filter: blur(5px); /* Efecto borroso */
-    opacity: 0.5;
-    pointer-events: none; /* No se puede interactuar */
-    user-select: none; /* No se puede copiar */
+.borroso {
+    filter: blur(8px);
+    user-select: none;
+    pointer-events: none;
 }
 
-.capa-bloqueo {
+.muro-registro {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Capa oscura encima */
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    color: #fff;
+    background: rgba(31, 31, 31, 0.8);
     z-index: 10;
-    text-align: center;
-    padding: 20px;
-}
-
-.capa-bloqueo h3 {
-    margin: 0 0 15px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* --- EL BOTÓN MÁGICO MULTICOLOR --- */
-/* Definimos la animación de colores */
-@keyframes boder-rainbow {
-    0% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000; }
-    20% { border-color: #ff7f00; box-shadow: 0 0 5px #ff7f00; }
-    40% { border-color: #ffff00; box-shadow: 0 0 5px #ffff00; }
-    60% { border-color: #00ff00; box-shadow: 0 0 5px #00ff00; }
-    80% { border-color: #0000ff; box-shadow: 0 0 5px #0000ff; }
-    100% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000; }
-}
-
-@keyframes bg-rainbow {
-    0% { background-color: #ff0000; }
-    20% { background-color: #ff7f00; }
-    40% { background-color: #ffff00; }
-    60% { background-color: #00ff00; }
-    80% { background-color: #0000ff; }
-    100% { background-color: #ff0000; }
-}
-
-.btn-magic {
-    display: inline-block;
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    
-    /* ESTADO NORMAL: Centro verde, Borde multicolor animado */
-    background-color: #2e7d32; /* Verde oscuro */
-    border: 3px solid;
-    animation: boder-rainbow 3s linear infinite; /* Animación de borde */
-    box-shadow: 0 0 10px rgba(0,255,0,0.2);
-}
-
-.btn-magic:hover {
-    /* ESTADO HOVER: Todo multicolor animado */
-    background-color: transparent; /* Quitamos el verde fijo */
-    animation: bg-rainbow 3s linear infinite, boder-rainbow 3s linear infinite; /* Ambas animaciones */
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255,255,255,0.5);
-}
-
-/* Botón cerrar sesión (más discreto) */
-.btn-logout {
-    background: none;
-    border: 1px solid #444;
-    color: #888;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-.btn-logout:hover {
-    border-color: #ff4d4d;
-    color: #ff4d4d;
-    background: rgba(255, 77, 77, 0.1);
-}
-
-/* Estilos para login.html */
-.login-box {
-    background-color: #111;
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid #222;
-    margin-top: 80px;
-    width: 350px;
-    text-align: center;
-}
-
-.login-box input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    background-color: #080808;
-    border: 1px solid #333;
-    color: #fff;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-.login-box input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
