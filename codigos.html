@@ -2,19 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Código Mario</title>
+    <title>Código CSS</title>
     <link rel="stylesheet" href="estilos.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 <body>
-    <header>
-        <a href="index2.html" style="color:#007bff; text-decoration:none;">← Volver</a>
-        <h2>Código: Mario Prototipo</h2>
-    </header>
+    <h1>Mis Estilos Pro</h1>
 
-    <main style="padding: 20px; max-width: 900px; margin: auto;">
-        <h3>Configuración inicial (Gratis)</h3>
-        <pre><code class="language-css">
+    <div class="card" style="width: 90%; text-align: left; margin: auto;">
+        <h3>🎨 Colores Base (Gratis)</h3>
+        <pre><code>
 /* Estilos Base */
 body {
     font-family: sans-serif;
@@ -32,9 +28,16 @@ header {
 }
         </code></pre>
 
-        <h3>targetas y conf avanzadas (Requiere Registro)</h3>
-        <div class="codigo-bloqueado-container">
-            <pre id="codigo-secreto" class="borroso"><code class="language-js">
+        <hr>
+
+        <h3>🔒 Efectos de Animación Card</h3>
+        <div id="bloqueo-css" style="background: #444; padding: 20px; border-radius: 10px; text-align: center;">
+            <p>Inicia sesión para ver las animaciones CSS.</p>
+            <a href="login.html" class="btn">Entrar</a>
+        </div>
+
+        <div id="secreto-css" style="display: none;">
+            <pre><code style="color: #00e5ff;">
 /* Tarjetas y Contenedores */
 .main-container {
     display: grid;
@@ -72,31 +75,16 @@ header {
 
 .btn:hover { background-color: #0056b3; }
 
-
             </code></pre>
-
-            <div id="muro" class="muro-registro">
-                <p>🔒 Regístrate para desbloquear las 200 líneas de código</p>
-                <a href="login.html" class="btn">Registrarse Gratis</a>
-            </div>
         </div>
-    </main>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="app.js"></script>
     <script>
-    // 1. Buscamos si existe la marca de 'registrado' en el navegador
-    const estadoRegistro = localStorage.getItem('registrado');
-
-    // 2. Si es 'true', liberamos el contenido
-    if (estadoRegistro === 'true') {
-        const codigoSecreto = document.getElementById('codigo-secreto');
-        const muroBloqueo = document.getElementById('muro');
-
-        if (codigoSecreto && muroBloqueo) {
-            codigoSecreto.classList.remove('borroso'); // Quita el blur
-            muroBloqueo.style.display = 'none';         // Esconde el mensaje y el botón
+        if(localStorage.getItem('registrado') === 'true') {
+            document.getElementById('bloqueo-css').style.display = 'none';
+            document.getElementById('secreto-css').style.display = 'block';
         }
-    }
-</script>
+    </script>
 </body>
 </html>
