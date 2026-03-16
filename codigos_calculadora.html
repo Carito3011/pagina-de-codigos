@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Código Mario</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <a href="index.html" style="color:#007bff; text-decoration:none;">← Volver</a>
+        <h2>Codigo: Calculadora Sencilla</h2>
+    </header>
+
+    <main style="padding: 20px; max-width: 900px; margin: auto;">
+        <h3>variables y parte de la logica(Gratis)</h3>
+        <pre><code class="language-js">
+sumar = 1
+restar = 2
+multiplicar = 3
+dividir = 4
+
+def calculadora(num1, num2, operacion):
+    if operacion == sumar:
+        return num1 + num2
+    elif operacion == restar:
+        return num1 - num2
+    elif operacion == multiplicar:
+        return num1 * num2
+    elif operacion == dividir:
+        </code></pre>
+
+        <h3>Lógica Completa Y Ejecucion (Requiere Registro)</h3>
+        <div class="codigo-bloqueado-container">
+            <pre id="codigo-secreto" class="borroso"><code class="language-js">
+if num2 != 0:
+            return num1 / num2
+        else:
+            # Es más específico devolver un mensaje de error
+            return "Error: No se puede dividir por cero."
+    else:
+        return "Error: Operación no válida."
+
+# --- Bloque principal de ejecución ---
+if __name__ == "__main__":
+    operacion_usuario = int(input("Ingrese la operación a realizar (1: sumar, 2: restar, 3: multiplicar, 4: dividir): "))
+    numero1 = float(input("Ingrese el primer número: "))
+    numero2 = float(input("Ingrese el segundo número: "))
+
+    # Llamamos a la función y guardamos el resultado
+    resultado = calculadora(numero1, numero2, operacion_usuario)
+
+    # Mostramos el resultado al usuario
+    print(f"El resultado es: {resultado}")
+
+
+            </code></pre>
+
+            <div id="muro" class="muro-registro">
+                <p>🔒 Regístrate para desbloquear las 200 líneas de código</p>
+                <a href="login.html" class="btn">Registrarse Gratis</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script>
+    // 1. Buscamos si existe la marca de 'registrado' en el navegador
+    const estadoRegistro = localStorage.getItem('registrado');
+
+    // 2. Si es 'true', liberamos el contenido
+    if (estadoRegistro === 'true') {
+        const codigoSecreto = document.getElementById('codigo-secreto');
+        const muroBloqueo = document.getElementById('muro');
+
+        if (codigoSecreto && muroBloqueo) {
+            codigoSecreto.classList.remove('borroso'); // Quita el blur
+            muroBloqueo.style.display = 'none';         // Esconde el mensaje y el botón
+        }
+    }
+</script>
+    
+</body>
+</html>

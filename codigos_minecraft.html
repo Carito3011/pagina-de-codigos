@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Código Mario</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <a href="index.html" style="color:#007bff; text-decoration:none;">← Volver</a>
+        <h2>Código: Mario Prototipo</h2>
+    </header>
+
+    <main style="padding: 20px; max-width: 900px; margin: auto;">
+        <h3>importaciones y cosas basicas(gratis)</h3>
+        <pre><code class="language-js">
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Random;
+
+public class MiniMinecraft extends JPanel implements Runnable {
+    private static final int TILES_X = 100, TILES_Y = 15, TILE_SIZE = 40;
+    private int[][] mundo = new int[TILES_Y][TILES_X];
+    
+    private double steveX = 100, steveY = 100, velY = 0;
+    private boolean enSuelo = false;
+    private boolean[] teclas = new boolean[256];
+    private int materialActual = 2; 
+
+    public MiniMinecraft() {
+        Random rand = new Random();
+        </code></pre>
+
+        <h3>Lógica Completa (Requiere Registro)</h3>
+        <div class="codigo-bloqueado-container">
+            <pre id="codigo-secreto" class="borroso"><code class="language-js">
+// 1. Generar suelo base
+        for (int y = 0; y < TILES_Y; y++) {
+            for (int x = 0; x < TILES_X; x++) {
+                if (y > 10) mundo[y][x] = 2; // Tierra
+                else if (y == 10) mundo[y][x] = 1; // Pasto
+            }
+        }
+
+        // 2. GENERADOR DE ÁRBOLES (Lógica Mojang)
+        for (int x = 5; x < TILES_X; x += rand.nextInt(10) + 5) {
+            int alturaTronco = rand.nextInt(3) + 3; // Troncos de 3 a 5 bloques
+            // Dibujar tronco
+            for (int h = 0; h < alturaTronco; h++) {
+                mundo[10 - 1 - h][x] = 3; // 3 es madera
+            }
+            // Dibujar hojas sencillas arriba
+            mundo[10 - alturaTronco - 1][x] = 1; // Un bloque de hojas (pasto) arriba
+            if (x > 0) mundo[10 - alturaTronco - 1][x-1] = 1;
+            if (x < TILES_X - 1) mundo[10 - alturaTronco - 1][x+1] = 1;
+        }
+
+        setFocusable(true);
+        addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) { 
+                teclas[e.getKeyCode()] = true; 
+                if (e.getKeyChar() == '1') materialActual = 1;
+                if (e.getKeyChar() == '2') materialActual = 2;
+                if (e.getKeyChar() == '3') materialActual = 3;
+                if (e.getKeyChar() == '4') materialActual = 4;
+            }
+            public void keyReleased(KeyEvent e) { teclas[e.getKeyCode()] = false; }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                int offsetCamara = (int)steveX - 400; 
+                int x = (e.getX() + offsetCamara) / TILE_SIZE;
+                int y = e.getY() / TILE_SIZE;
+                if (x >= 0 && x < TILES_X && y >= 0 && y < TILES_Y) {
+                    mundo[y][x] = (SwingUtilities.isLeftMouseButton(e)) ? 0 : materialActual;
+                }
+            }
+        });
+        new Thread(this).start();
+    }
+
+    private void actualizar() {
+        double proximoX = steveX;
+        if (teclas[KeyEvent.VK_LEFT]) proximoX -= 6;
+        if (teclas[KeyEvent.VK_RIGHT]) proximoX += 6;
+        if (!hayBloque(proximoX, steveY) && !hayBloque(proximoX + 20, steveY + 39)) steveX = proximoX;
+
+        if (teclas[KeyEvent.VK_SPACE] && enSuelo) { velY = -13; enSuelo = false; }
+        velY += 0.8;
+        double proximoY = steveY + velY;
+
+        if (hayBloque(steveX, proximoY + 40) || hayBloque(steveX + 20, proximoY + 40)) {
+            velY = 0; enSuelo = true;
+            steveY = ((int)(proximoY + 40) / TILE_SIZE) * TILE_SIZE - 40;
+        } else { steveY = proximoY; enSuelo = false; }
+    }
+
+    private boolean hayBloque(double x, double y) {
+        int tx = (int)x / TILE_SIZE, ty = (int)y / TILE_SIZE;
+        if (tx < 0 || tx >= TILES_X || ty < 0 || ty >= TILES_Y) return false;
+        return mundo[ty][tx] != 0;
+    }
+
+    @Override
+    public void run() {
+        while (true) { actualizar(); repaint(); try { Thread.sleep(20); } catch (Exception e) {} }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        int desplazamientoX = 400 - (int)steveX;
+        g.translate(desplazamientoX, 0); 
+
+        for (int y = 0; y < TILES_Y; y++) {
+            for (int x = 0; x < TILES_X; x++) {
+                int b = mundo[y][x];
+                if (b == 1) g.setColor(new Color(34, 139, 34)); // HOJAS/PASTO
+                else if (b == 2) g.setColor(new Color(101, 67, 33)); // TIERRA
+                else if (b == 3) g.setColor(new Color(160, 82, 45)); // TRONCO
+                else if (b == 4) g.setColor(Color.GRAY); // PIEDRA
+                else {
+                    g.setColor(new Color(135, 206, 235));
+                    g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    continue;
+                }
+                g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            }
+        }
+        
+        g.setColor(new Color(0, 150, 200)); 
+        g.fillRect((int)steveX, (int)steveY, 20, 40);
+        g.setColor(new Color(255, 224, 189));
+        g.fillRect((int)steveX, (int)steveY - 10, 20, 20);
+
+        g.translate(-desplazamientoX, 0);
+        g.setColor(Color.BLACK); 
+        g.drawString("Mundo Generado | Material: " + materialActual, 10, 20);
+    }
+
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Minecraft 2D: World Gen");
+        f.add(new MiniMinecraft());
+        f.setSize(800, 640);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+    }
+}
+
+            </code></pre>
+
+            <div id="muro" class="muro-registro">
+                <p>🔒 Regístrate para desbloquear las 200 líneas de código</p>
+                <a href="login.html" class="btn">Registrarse Gratis</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script>
+    // 1. Buscamos si existe la marca de 'registrado' en el navegador
+    const estadoRegistro = localStorage.getItem('registrado');
+
+    // 2. Si es 'true', liberamos el contenido
+    if (estadoRegistro === 'true') {
+        const codigoSecreto = document.getElementById('codigo-secreto');
+        const muroBloqueo = document.getElementById('muro');
+
+        if (codigoSecreto && muroBloqueo) {
+            codigoSecreto.classList.remove('borroso'); // Quita el blur
+            muroBloqueo.style.display = 'none';         // Esconde el mensaje y el botón
+        }
+    }
+</script>
+    
+</body>
+</html>

@@ -17,22 +17,29 @@ header {
 /* Tarjetas y Contenedores */
 .main-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Esto crea exactamente DOS columnas */
+    grid-template-columns: 1fr 1fr; 
     gap: 20px;
-    padding: 40px;
-    max-width: 1000px;
+    padding: 20px;
+    max-width: 1000px; /* Un ancho razonable para que quepan dos bien */
     margin: auto;
 }
 
 .card {
     background-color: #1f1f1f;
     border: 1px solid #333;
-    padding: 25px;
+    /* 80px arriba/abajo hará que se vean muy "gorditas" y pro */
+    padding: 80px 30px; 
     border-radius: 12px;
     text-align: center;
     transition: transform 0.3s;
+    
+    /* Esto ayuda a que el contenido se vea bien centrado */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-
 .card:hover { transform: translateY(-5px); border-color: #007bff; }
 
 /* BOTONES AZULES (Los que pediste) */
