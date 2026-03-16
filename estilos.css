@@ -1,4 +1,4 @@
-/* Estilos Base */
+/* --- Estilos Base --- */
 body {
     font-family: sans-serif;
     margin: 0;
@@ -14,51 +14,114 @@ header {
     border-bottom: 1px solid #333;
 }
 
-/* Tarjetas y Contenedores */
+/* --- BOTÓN CERRAR SESIÓN (Ya no está desnutrido) --- */
+.btn-cerrar {
+    display: inline-block;
+    cursor: pointer;
+    border: none;
+    background-color: #ff4d4d; /* Rojo Gaming vibrante */
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 12px 24px; /* Relleno robusto para que tenga cuerpo */
+    border-radius: 8px;
+    margin-top: 15px;
+    transition: all 0.2s ease;
+    
+    /* El truco del efecto 3D: un borde inferior más oscuro */
+    border-bottom: 4px solid #b33636; 
+}
+
+/* Efecto al pasar el mouse (sube un poco) */
+.btn-cerrar:hover {
+    filter: brightness(110%);
+    transform: translateY(-2px);
+    border-bottom-width: 6px; /* El borde crece hacia abajo */
+}
+
+/* Efecto al hacer click (se 'hunde' como un botón real) */
+.btn-cerrar:active {
+    transform: translateY(2px); 
+    border-bottom-width: 1px;
+    filter: brightness(90%);
+}
+
+/* --- Tarjetas y Contenedores --- */
 .main-container {
     display: grid;
-    /* Esto crea exactamente DOS columnas */
     grid-template-columns: 1fr 1fr; 
     gap: 20px;
     padding: 20px;
-    max-width: 1000px; /* Un ancho razonable para que quepan dos bien */
+    max-width: 1000px; 
     margin: auto;
 }
 
 .card {
     background-color: #1f1f1f;
     border: 1px solid #333;
-    /* 80px arriba/abajo hará que se vean muy "gorditas" y pro */
-    padding: 80px 30px; 
+    /* 60px arriba/abajo le da mucha presencia */
+    padding: 60px 30px; 
     border-radius: 12px;
     text-align: center;
     transition: transform 0.3s;
     
-    /* Esto ayuda a que el contenido se vea bien centrado */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.card:hover { transform: translateY(-5px); border-color: #007bff; }
 
-/* BOTONES AZULES (Los que pediste) */
-.btn {
-    display: inline-block;
-    background-color: #007bff;
-    color: white !important;
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    margin-top: 15px;
+.card:hover { 
+    transform: translateY(-5px); 
+    border-color: #007bff; 
 }
 
-.btn:hover { background-color: #0056b3; }
+/* --- BOTONES DE LAS TARJETAS (Estilo Uiverse) --- */
+.uiverse-btn {
+    align-items: center;
+    background-image: linear-gradient(144deg, #007bff, #5b42f3 50%, #00ddeb);
+    border: 0;
+    border-radius: 10px;
+    box-shadow: rgba(0, 123, 255, 0.2) 0 10px 20px -5px;
+    box-sizing: border-box;
+    color: #ffffff;
+    display: flex;
+    font-size: 16px;
+    justify-content: center;
+    line-height: 1em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    
+    padding: 2px; /* Grosor del borde neón */
+    
+    width: fit-content;
+    min-width: 160px;
+    margin: 20px auto 0;
+}
 
-/* EFECTO DE BLOQUEO (Para el código) */
+.uiverse-btn span {
+    background-color: #05062d; /* El azul oscuro pro de Uiverse */
+    padding: 14px 24px;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.uiverse-btn:hover span {
+    background: none; /* Se ilumina todo el botón */
+}
+
+.uiverse-btn:active {
+    transform: scale(0.95);
+}
+
+/* --- Efectos de Bloqueo --- */
 .codigo-bloqueado-container {
     position: relative;
     border-radius: 8px;
