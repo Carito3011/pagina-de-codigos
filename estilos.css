@@ -12,41 +12,91 @@ header {
     padding: 2rem 1rem;
     text-align: center;
     border-bottom: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* --- BOTÓN CERRAR SESIÓN (Ya no está desnutrido) --- */
+/* --- BUSCADOR CYBERPUNK --- */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    width: 100%;
+}
+
+#search-component {
+    position: relative;
+    width: 314px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-field {
+    background-color: #010201;
+    border: none;
+    width: 301px;
+    height: 56px;
+    border-radius: 10px;
+    color: white;
+    padding-inline: 59px;
+    font-size: 18px;
+    position: relative;
+    z-index: 10;
+}
+
+.input-field:focus { outline: none; }
+
+.inner-dark-bg, .glow-border-bg, .glow-effect {
+    max-height: 70px;
+    max-width: 314px;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border-radius: 12px;
+    filter: blur(3px);
+    z-index: 1;
+}
+
+.glow-effect { filter: blur(30px); opacity: 0.4; max-height: 130px; max-width: 354px; z-index: 0; }
+
+.inner-dark-bg::before, .glow-border-bg::before, .glow-effect::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(83deg);
+    width: 600px; height: 600px;
+    background-repeat: no-repeat;
+    transition: all 2s ease;
+}
+
+
+
+
+
+.search-input-wrapper { position: relative; z-index: 10; }
+#search-icon { position: absolute; left: 20px; top: 15px; z-index: 11; }
+#filter-icon { position: absolute; top: 8px; right: 8px; z-index: 11; width: 38px; height: 40px; background: linear-gradient(180deg, #161329, black, #1d1b4b); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+
+/* --- BOTÓN CERRAR SESIÓN (3D) --- */
 .btn-cerrar {
-    display: inline-block;
     cursor: pointer;
     border: none;
-    background-color: #ff4d4d; /* Rojo Gaming vibrante */
+    background-color: #ff4d4d;
     color: white;
     font-weight: bold;
-    font-size: 0.9rem;
-    padding: 12px 24px; /* Relleno robusto para que tenga cuerpo */
+    padding: 12px 24px;
     border-radius: 8px;
     margin-top: 15px;
+    border-bottom: 4px solid #b33636;
     transition: all 0.2s ease;
-    
-    /* El truco del efecto 3D: un borde inferior más oscuro */
-    border-bottom: 4px solid #b33636; 
 }
+.btn-cerrar:hover { transform: translateY(-2px); border-bottom-width: 6px; }
+.btn-cerrar:active { transform: translateY(2px); border-bottom-width: 1px; }
 
-/* Efecto al pasar el mouse (sube un poco) */
-.btn-cerrar:hover {
-    filter: brightness(110%);
-    transform: translateY(-2px);
-    border-bottom-width: 6px; /* El borde crece hacia abajo */
-}
-
-/* Efecto al hacer click (se 'hunde' como un botón real) */
-.btn-cerrar:active {
-    transform: translateY(2px); 
-    border-bottom-width: 1px;
-    filter: brightness(90%);
-}
-
-/* --- Tarjetas y Contenedores --- */
+/* --- Tarjetas --- */
 .main-container {
     display: grid;
     grid-template-columns: 1fr 1fr; 
@@ -59,88 +109,84 @@ header {
 .card {
     background-color: #1f1f1f;
     border: 1px solid #333;
-    /* 60px arriba/abajo le da mucha presencia */
     padding: 60px 30px; 
     border-radius: 12px;
     text-align: center;
     transition: transform 0.3s;
-    
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
+.card:hover { transform: translateY(-5px); border-color: #007bff; }
 
-.card:hover { 
-    transform: translateY(-5px); 
-    border-color: #007bff; 
-}
-
-/* --- BOTONES DE LAS TARJETAS (Estilo Uiverse) --- */
+/* --- BOTONES UIVERSE (Ver Código) --- */
 .uiverse-btn {
-    align-items: center;
     background-image: linear-gradient(144deg, #007bff, #5b42f3 50%, #00ddeb);
-    border: 0;
     border-radius: 10px;
-    box-shadow: rgba(0, 123, 255, 0.2) 0 10px 20px -5px;
-    box-sizing: border-box;
-    color: #ffffff;
-    display: flex;
-    font-size: 16px;
-    justify-content: center;
-    line-height: 1em;
+    padding: 2px;
     text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    
-    padding: 2px; /* Grosor del borde neón */
-    
-    width: fit-content;
+    display: flex;
+    margin-top: 20px;
     min-width: 160px;
-    margin: 20px auto 0;
 }
-
 .uiverse-btn span {
-    background-color: #05062d; /* El azul oscuro pro de Uiverse */
+    background-color: #05062d;
     padding: 14px 24px;
     border-radius: 8px;
     width: 100%;
-    height: 100%;
+    color: white;
     transition: 300ms;
     display: flex;
-    align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+}
+.uiverse-btn:hover span { background: none; }
+.grid {
+    display: none !important;
 }
 
-.uiverse-btn:hover span {
-    background: none; /* Se ilumina todo el botón */
-}
 
-.uiverse-btn:active {
-    transform: scale(0.95);
-}
-
-/* --- Efectos de Bloqueo --- */
-.codigo-bloqueado-container {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.borroso {
-    filter: blur(8px);
-    user-select: none;
-    pointer-events: none;
-}
-
-.muro-registro {
+/* --- LOADER EN LA BARRITA --- */
+.loader {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(31, 31, 31, 0.8);
+    right: 45px;
+    top: 50%;
+    transform: translateY(-50%) scale(0.25); /* Tamaño mini para la barra */
+    width: 54px;
+    height: 54px;
     z-index: 10;
 }
+
+.loader.hidden {
+    display: none !important;
+}
+
+.loader div {
+    width: 8%;
+    height: 24%;
+    background: #dfa2da;
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    opacity: 0;
+    border-radius: 50px;
+    animation: fade458 1s linear infinite;
+}
+
+@keyframes fade458 {
+    from { opacity: 1; }
+    to { opacity: 0.25; }
+}
+
+/* Animaciones de las barras */
+.loader .bar1 { transform: rotate(0deg) translate(0, -130%); animation-delay: 0s; }
+.loader .bar2 { transform: rotate(30deg) translate(0, -130%); animation-delay: -1.1s; }
+.loader .bar3 { transform: rotate(60deg) translate(0, -130%); animation-delay: -1s; }
+.loader .bar4 { transform: rotate(90deg) translate(0, -130%); animation-delay: -0.9s; }
+.loader .bar5 { transform: rotate(120deg) translate(0, -130%); animation-delay: -0.8s; }
+.loader .bar6 { transform: rotate(150deg) translate(0, -130%); animation-delay: -0.7s; }
+.loader .bar7 { transform: rotate(180deg) translate(0, -130%); animation-delay: -0.6s; }
+.loader .bar8 { transform: rotate(210deg) translate(0, -130%); animation-delay: -0.5s; }
+.loader .bar9 { transform: rotate(240deg) translate(0, -130%); animation-delay: -0.4s; }
+.loader .bar10 { transform: rotate(270deg) translate(0, -130%); animation-delay: -0.3s; }
+.loader .bar11 { transform: rotate(300deg) translate(0, -130%); animation-delay: -0.2s; }
+.loader .bar12 { transform: rotate(330deg) translate(0, -130%); animation-delay: -0.1s; }
