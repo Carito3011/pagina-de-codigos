@@ -190,3 +190,40 @@ header {
 .loader .bar10 { transform: rotate(270deg) translate(0, -130%); animation-delay: -0.3s; }
 .loader .bar11 { transform: rotate(300deg) translate(0, -130%); animation-delay: -0.2s; }
 .loader .bar12 { transform: rotate(330deg) translate(0, -130%); animation-delay: -0.1s; }
+/* Creamos la clase desde cero */
+.muro-registro {
+    position: absolute;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Empuja el botón hacia abajo */
+    padding-bottom: 40px; /* Espacio para que el botón no toque el borde */
+    z-index: 10;
+    
+    /* El degradado "clarito" pero que tapa el código */
+    background: linear-gradient(
+        to bottom, 
+        rgba(31, 31, 31, 0) 0%, 
+        rgba(31, 31, 31, 0.8) 50%, 
+        rgba(31, 31, 31, 1) 100%
+    );
+}
+/* Estilo para el enlace de registro */
+.boton-registro {
+    background-color: #28a745; /* Verde profesional */
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 50px; /* Bordes muy redondeados (estilo moderno) */
+    font-family: sans-serif;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.boton-registro:hover {
+    background-color: #218838;
+    transform: scale(1.05); /* Se agranda un poquito al tocarlo */
+}
